@@ -1,0 +1,6 @@
+pytelegrambotapi
+requests[socks]
+zabbix-api
+requests
+imgkit
+re
