@@ -3,8 +3,7 @@ import telebot;
 import requests;
 import imgkit;
 from telebot import apihelper;
-import sys;
-import re;
+import os, time, datetime, re, sys;
 
 from passwd import webuser, webpass, ipamuser, ipampass, admins, proxy, url, TOKEN
 
@@ -22,7 +21,7 @@ def get_screen(url):
     homecss=HomeDir+'dark-theme.css'
     session=requests.session()
     login=session.post(loginurl, params=logindata, headers=headers) 
-    imgkit.from_string ( session.get(url).text, '/home/out.jpg', css='/home/dark-theme.css' )
+    imgkit.from_string ( session.get(url).text, HomeDir+'out.jpg', css=HomeDir+'dark-theme.css' )
 
 def get_vm_hostname(ip):
     try:
@@ -44,26 +43,42 @@ def handle_start_help(message):
 @bot.message_handler(content_types=['text'])
 def get_text_messages(message):
 
-    if message.text.lower() == "id":
+    if message.text.lower() == "id" or message.text.lower() == "/id":
         bot.send_message(message.chat.id, "You telegramm ID is:")
         bot.send_message(message.chat.id, message.from_user.id)
 
-    if str(message.from_user.id) in admins and message.text.lower() != "id":
-        if message.text.lower() == "gp": #get http url screen
+    if str(message.from_user.id) in admins:
+
+        if message.text.lower() == "gp" or message.text.lower() == "/gp": #get http url screen
+
            try:
                get_screen(url)
            except:
-               print ('error in gen screen')
-           foto = open(HomeDir+'out.jpg', 'rb')
-           bot.send_photo(message.from_user.id, foto)
-        elif re.match("^ip\s.+", message.text.lower()): #get ips hostname from IPAM 
+               #bot.send_message(message.from_user.id, "Error in gen screen, pleas contact to SysAdmin")
+               pass
+
+           try:
+               foto = open(HomeDir+'out.jpg', 'rb') 
+               bot.send_photo(message.from_user.id, foto)
+           except:
+               bot.send_message(message.from_user.id, "Error to send/open image, pleas contact to SysAdmin")
+
+        elif re.match("^[/]*?ip\s.+", message.text.lower()): #get ips hostname from IPAM 
            ip = extract_arg(message.text)
            bot.send_message(message.from_user.id, get_vm_hostname(ip))
+
+        elif message.text.lower() == "uptime" or message.text.lower() == "/uptime":
+           dateup = os.popen('stat /proc/1/cmdline|grep Change|awk \'{print $2,$3}\'|sed "s/\..........//"|tr -d "\r\n"').read()
+           up = time.mktime((datetime.datetime.now()).timetuple()) - time.mktime(datetime.datetime.strptime(dateup, "%Y-%m-%d %H:%M:%S").timetuple())
+           bot.send_message(message.from_user.id, str(datetime.timedelta(seconds=up)) )
+
         else:
-           bot.send_message(message.from_user.id, "For help please put: /help.")
+           bot.send_message(message.from_user.id, "For help please put: /")
+
     else:
-        bot.send_message(message.chat.id, 'You do\'t have permission!')
-        bot.send_sticker(message.chat.id, 'CAADAgADZgkAAnlc4gmfCor5YbYYRAI')
+        if message.text.lower() != "id" or message.text.lower() != "/id":
+            bot.send_message(message.chat.id, 'You do\'t have permission!')
+            bot.send_sticker(message.chat.id, 'CAADAgADZgkAAnlc4gmfCor5YbYYRAI')
 
 
 #bot.polling(none_stop=True, interval=0)
