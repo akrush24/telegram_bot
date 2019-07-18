@@ -40,13 +40,12 @@ def get_vm_hostname(ip):
 def handle_start_help(message):
     pass
 
+
 @bot.message_handler(content_types=['text'])
 def get_text_messages(message):
-
     if message.text.lower() == "id" or message.text.lower() == "/id":
         bot.send_message(message.chat.id, "You telegramm ID is:")
         bot.send_message(message.chat.id, message.from_user.id)
-        pas_s = 1
 
     if str(message.from_user.id) in admins:
 
@@ -77,16 +76,17 @@ def get_text_messages(message):
            bot.send_message(message.from_user.id, str(datetime.timedelta(seconds=up)) )
 
         else:
-            if pas_s != 1:
-                bot.send_message(message.from_user.id, 'For help only put: "/"')
-            else:
-                pass
+           bot.send_message(message.from_user.id, 'For help only put: "/"')
 
     else:
         if message.text.lower() != "id" and message.text.lower() != "/id":
             bot.send_message(message.chat.id, 'You do\'t have permission!')
             bot.send_sticker(message.chat.id, 'CAADAgADZgkAAnlc4gmfCor5YbYYRAI')
 
-
-#bot.polling(none_stop=True, interval=0)
-bot.polling(none_stop=False, interval=0, timeout=20)
+try:
+    #bot.polling(none_stop=True, interval=0)
+    bot.polling(none_stop=True, interval=0, timeout=60)
+except Exception as inst:
+    print ( type(inst) )     # the exception instance
+    print ( inst.args )      # arguments stored in .args
+    print ( inst )           # __str__ allows args to printed directly

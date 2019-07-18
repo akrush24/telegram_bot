@@ -1,6 +1,7 @@
 FROM ubuntu:latest
-ADD requirements.txt dark-theme.css passwd.*.py bot.py /home/
-RUN apt-get update \
-  && apt-get install -y python3-pip wkhtmltopdf \
-  && pip3 install -r requirements.txt \
-  && rm -rf /var/lib/apt/lists/*
+ADD requirements.txt /home/
+RUN export DEBIAN_FRONTEND=noninteractive && apt-get update \
+&& apt-get install -yq python3-pip wkhtmltopdf \
+&& rm -rf /var/lib/apt/lists/*
+RUN pip3 install -r /home/requirements.txt
+CMD [ "/home/bot.py" ]
