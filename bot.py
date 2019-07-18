@@ -18,10 +18,12 @@ def get_screen(url):
     loginurl = 'https://zabbix.phoenixit.ru/index.php'
     logindata = {'autologin' : '1', 'name' : webuser, 'password': webpass, 'enter' : 'Sign in'}
     headers = {'User-Agent' : 'Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0', 'Content-type' : 'application/x-www-form-urlencoded'}
-    homecss=HomeDir+'dark-theme.css'
     session=requests.session()
-    login=session.post(loginurl, params=logindata, headers=headers) 
-    imgkit.from_string ( session.get(url).text, HomeDir+'out.jpg', css=HomeDir+'dark-theme.css' )
+    login=session.post(loginurl, params=logindata, headers=headers)
+    options = {
+        'xvfb': ''
+    }
+    imgkit.from_string ( session.get(url).text, HomeDir+'out.jpg', css=HomeDir+'dark-theme.css', options=options )
 
 def get_vm_hostname(ip):
     try:
@@ -53,15 +55,23 @@ def get_text_messages(message):
 
            try:
                get_screen(url)
-           except:
+           except Exception as inst:
+               #print ( type(inst) )     # the exception instance
+               #print ( inst.args )      # arguments stored in .args
+               #print ( inst )           # __str__ allows args to printed directly
+
                #bot.send_message(message.from_user.id, "Error in gen screen, pleas contact to SysAdmin")
+
                pass
 
            try:
-               foto = open(HomeDir+'out.jpg', 'rb') 
+               foto = open(HomeDir+'out.jpg', 'rb')
                bot.send_photo(message.from_user.id, foto)
            except:
                bot.send_message(message.from_user.id, "Error to send/open image, pleas contact to SysAdmin")
+
+           if os.path.exists(HomeDir+'out.jpg'):
+              os.remove(HomeDir+'out.jpg')
 
         elif re.match("^[/]*?ip\s.+", message.text.lower()): #get ips hostname from IPAM 
            ip = extract_arg(message.text)
