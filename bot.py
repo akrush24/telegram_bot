@@ -44,8 +44,6 @@ def handle_start_help(message):
     pass
 
 
-
-
 @bot.message_handler(content_types=['text'])
 def get_text_messages(message):
     if message.text.lower() == "id" or message.text.lower() == "/id":
@@ -95,7 +93,7 @@ def get_text_messages(message):
                 if len(tickets) != 0 :
                     for key, value in tickets.items():
                         keyboard = telebot.types.InlineKeyboardMarkup()
-                        keyboard.add(telebot.types.InlineKeyboardButton(text=key, url='https://servicedesk.phoenixit.ru/Task/'+key) )
+                        keyboard.add(telebot.types.InlineKeyboardButton(text=key, url='https://servicedesk.phoenixit.ru/Task/View/'+key) )
                         bot.send_message( message.from_user.id, value, reply_markup=keyboard )
                 else:
                     bot.send_message( message.from_user.id, "No open tickets is: NONE" )
