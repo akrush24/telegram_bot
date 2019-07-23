@@ -6,6 +6,7 @@ from telebot import apihelper;
 import os, time, datetime, re, sys;
 
 from passwd import webuser, webpass, ipamuser, ipampass, admins, proxy, url, TOKEN
+from servicedesk import get_ticket, send_teleg
 
 HomeDir='/home/'
 bot = telebot.TeleBot(TOKEN);
@@ -84,6 +85,16 @@ def get_text_messages(message):
            dateup = os.popen('stat /proc/1/cmdline|grep Change|awk \'{print $2,$3}\'|sed "s/\..........//"|tr -d "\r\n"').read()
            up = time.mktime((datetime.datetime.now()).timetuple()) - time.mktime(datetime.datetime.strptime(dateup, "%Y-%m-%d %H:%M:%S").timetuple())
            bot.send_message(message.from_user.id, str(datetime.timedelta(seconds=up)) )
+
+        elif message.text.lower() == "sd" or message.text.lower() == "/sd":
+            try:
+                ticket = get_ticket()
+            except:
+                text = "Error to get tickets from servicedesk, pleas contact to SysAdmin"
+                print(text)
+
+            for i in ticket.keys():
+                bot.send_message(message.from_user.id, str(ticket[i]))
 
         else:
            bot.send_message(message.from_user.id, 'For help only put: "/"')
