@@ -44,6 +44,8 @@ def handle_start_help(message):
     pass
 
 
+
+
 @bot.message_handler(content_types=['text'])
 def get_text_messages(message):
     if message.text.lower() == "id" or message.text.lower() == "/id":
@@ -87,14 +89,20 @@ def get_text_messages(message):
            bot.send_message(message.from_user.id, str(datetime.timedelta(seconds=up)) )
 
         elif message.text.lower() == "sd" or message.text.lower() == "/sd":
+
             try:
-                ticket = get_ticket()
+                tickets = get_ticket()
+                if len(tickets) != 0 :
+                    for key, value in tickets.items():
+                        keyboard = telebot.types.InlineKeyboardMarkup()
+                        keyboard.add(telebot.types.InlineKeyboardButton(text=key, url='https://servicedesk.phoenixit.ru/Task/'+key) )
+                        bot.send_message( message.from_user.id, value, reply_markup=keyboard )
+                else:
+                    bot.send_message( message.from_user.id, "No open tickets is: NONE" )
             except:
                 text = "Error to get tickets from servicedesk, pleas contact to SysAdmin"
+                bot.send_message( message.from_user.id, text )
                 print(text)
-
-            for i in ticket.keys():
-                bot.send_message(message.from_user.id, str(ticket[i]))
 
         else:
            bot.send_message(message.from_user.id, 'For help only put: "/"')

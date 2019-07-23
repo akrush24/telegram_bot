@@ -51,19 +51,18 @@ def get_ticket():
             lifetimeshort = soup_view.find('div', id='lifetimeshort').text.replace("\n\n\n\n", " ")
             d.update ({'comment' : lifetimeshort.replace("\n\n\n", "\n").replace("^\ ", "")})
             d.update ({'created_head':'-_-_-_-_-_-_-_-_-_СОЗДАНА_-_-_-_-_-_-_-_-'})
-            d.update({'created': created.replace('  ', '') + soup_view.find('ul', class_='users').find('a',class_='nounderline').text + '\n'})
+            d.update ({'created': created.replace('  ', '') + soup_view.find('ul', class_='users').find('a',class_='nounderline').text + '\n'})
             #out.update({ taskid: url + "\n" + d['head'] + d['head_name'] + d['vm'] + d['description_head'] + d['Description'] +
-            out.update({ taskid: url + "\n" + d['head_name'] + d['vm'] + d['description_head'] + d['Description'] +
-                        d['comment_head'] + d['comment'] + '\n' + d['created_head'] + d['created'] })
+            out[taskid] =  d['head_name'] + d['vm'] + d['description_head'] + d['Description'] + d['comment_head'] + d['comment'] + '\n' + d['created_head'] + d['created']
     return (out)
 
 
 def send_teleg():
 
-    sors = get_ticket()
-    pr = ''
-    for i in sors.keys():
-        pr += sors[i]
-    return pr
+    tickets = get_ticket()
+   # print (str (tickets) )
+    for key, value in tickets.items():
+        print ( key )
+        print ( value )
 
-#print (send_teleg())
+#send_teleg()
