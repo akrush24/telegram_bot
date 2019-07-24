@@ -48,6 +48,8 @@ def handle_start_help(message):
 
 @bot.message_handler(content_types=['text'])
 def get_text_messages(message):
+    intext = message.text.lower()
+
     if message.text.lower() == "id" or message.text.lower() == "/id":
         bot.send_message(message.chat.id, "You telegramm ID is:")
         bot.send_message(message.chat.id, message.from_user.id)
@@ -76,12 +78,12 @@ def get_text_messages(message):
            if os.path.exists(HomeDir+'out.jpg'):
               os.remove(HomeDir+'out.jpg')
 
-        elif re.match("^[/]*?ip\s.+", message.text.lower()): #get ips hostname from IPAM 
-           ip = extract_arg(message.text)
-           bot.send_message(message.from_user.id, get_vm_hostname(ip))
-
-        elif message.text.lower() == "ip" or message.text.lower() == "/ip":
-           bot.send_message(message.from_user.id, "Please use /ip <IP ADDR>")
+        elif re.match( r"^[/]*?ip", intext):
+           if re.match( r"^[/]*?ip\s+\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$", intext ): #get ips hostname from IPAM
+             ip = extract_arg(message.text)
+             bot.send_message(message.from_user.id, get_vm_hostname(ip))
+           else:
+             bot.send_message(message.from_user.id, "IP addres is't correct, please use /ip <192.0.0.1>")
 
         elif message.text.lower() == "uptime" or message.text.lower() == "/uptime":
            dateup = os.popen('stat /proc/1/cmdline|grep Change|awk \'{print $2,$3}\'|sed "s/\..........//"|tr -d "\r\n"').read()

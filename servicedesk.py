@@ -66,4 +66,4 @@ def send_teleg():
     #    print ( key )
     #    print ( value )
 
-send_teleg()
+#send_teleg()
