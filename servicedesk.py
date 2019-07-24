@@ -5,9 +5,9 @@ from bs4 import BeautifulSoup
 def get_ticket():
 
     loginurl = 'https://servicedesk.phoenixit.ru/'
-    logindata = {'autologin' : '1', 'login' : 'infra', 'password' : 'oHR4]{_sH@[=H38L;L#p', 'enter' : 'submit'}
+    logindata = {'autologin' : '1', 'login' : 'infra', 'password' : 'oHR4]{_sH@[=H38L;L#p', 'enter' : 'submit', 'stateid': '249'}
     headers = {'User-Agent' : 'Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0',
-                       'Content-type' : 'application/x-www-form-urlencoded'}
+            'Content-type' : 'application/x-www-form-urlencoded', 'stateid': '249'}
     session=requests.session()
     login=session.post(loginurl, params=logindata, headers=headers)
     url = 'https://servicedesk.phoenixit.ru/Task'
@@ -21,7 +21,8 @@ def get_ticket():
         if a.find('img', alt=status):
 
             taskid = a.find('img', alt=status).get('taskid')
-            url = "https://servicedesk.phoenixit.ru/Task/view/"+taskid
+            print (taskid)
+            url = loginurl+"Task/view/"+taskid
             soup_view = BeautifulSoup(session.get(url).content, 'html.parser')
             created = soup_view.find('div', class_='created').text
             vm = None
@@ -60,9 +61,9 @@ def get_ticket():
 def send_teleg():
 
     tickets = get_ticket()
-   # print (str (tickets) )
-    for key, value in tickets.items():
-        print ( key )
-        print ( value )
+    print (str (tickets) )
+    #for key, value in tickets.items():
+    #    print ( key )
+    #    print ( value )
 
-#send_teleg()
+send_teleg()

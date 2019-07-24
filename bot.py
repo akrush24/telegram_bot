@@ -12,6 +12,8 @@ HomeDir='/home/'
 bot = telebot.TeleBot(TOKEN);
 apihelper.proxy = proxy
 
+os.popen('stat /proc/1/cmdline') # it's for uptime function
+
 def extract_arg(arg):
     return arg.split()[1:]
 
@@ -88,15 +90,16 @@ def get_text_messages(message):
 
         elif message.text.lower() == "sd" or message.text.lower() == "/sd":
 
+            tickets = get_ticket()
+            print(str(len(tickets)))
             try:
-                tickets = get_ticket()
                 if len(tickets) != 0 :
                     for key, value in tickets.items():
                         keyboard = telebot.types.InlineKeyboardMarkup()
                         keyboard.add(telebot.types.InlineKeyboardButton(text=key, url='https://servicedesk.phoenixit.ru/Task/View/'+key) )
                         bot.send_message( message.from_user.id, value, reply_markup=keyboard )
                 else:
-                    bot.send_message( message.from_user.id, "No open tickets is: NONE" )
+                    bot.send_message( message.from_user.id, "No open tickets." )
             except:
                 text = "Error to get tickets from servicedesk, pleas contact to SysAdmin"
                 bot.send_message( message.from_user.id, text )
