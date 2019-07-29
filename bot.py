@@ -91,14 +91,20 @@ def get_text_messages(message):
            up = time.mktime((datetime.datetime.now()).timetuple()) - time.mktime(datetime.datetime.strptime(dateup, "%Y-%m-%d %H:%M:%S").timetuple())
            bot.send_message(message.from_user.id, str(datetime.timedelta(seconds=up)) )
 
-        elif re.match( r"^[/]*?vm", intext):
+        elif re.match( r"^[/]*?vm$", intext):
+            bot.send_message(message.from_user.id, "Please use: vm [-ip <IP>|-mac <MAC>|-note <NOTE>|-name <NAME>|-esxi <ESXI>]" )
+        elif re.match( r"^[/]*?vm\s+?-.+", intext):
             json = ""
             args = extract_arg( intext )
             argsstr = ' '.join(str(e) for e in args)
-            json = os.popen('./search_json.py ' + argsstr ).read()
-            pprint ( json )
+            try:
+                json = os.popen('./search_json.py ' + argsstr ).read()
+                bot.send_message(message.from_user.id, str( json ))
+            except:
+                print( "Error during run: search_json, pleas contact to SysAdmin" )
+                print( intext )
+                bot.send_message(message.from_user.id, "Error during run: search_json, pleas contact to SysAdmin")
 
-            bot.send_message(message.from_user.id, str( json ))
 
         elif message.text.lower() == "sd" or message.text.lower() == "/sd":
 

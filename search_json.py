@@ -17,6 +17,13 @@ jsonfile = 'vmware.json'
 json_data=open(jsonfile)
 jdata = json.load(json_data)
 
+if args.ip is not None:
+    if re.match( r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$", args.ip ):
+        pass
+    else:
+        print ("IP addres is't correct, please use /ip <192.0.0.1>")
+        quit()
+
 for key, value in jdata.items():
     if args.name is not None and re.match( args.name , key ):
         print ( "vmname: " + key)
@@ -34,6 +41,8 @@ for key, value in jdata.items():
         if inip == 1:
             print ( "vmname: " + key)
             pprint ( value )
+#        else:
+#            print ("IP: " + args.ip + " not found")
 
     elif args.mac is not None and ( re.match( args.mac,  str( value['macaddress'] ) ) or args.mac in value['Note'] ):
         print ( "vmname: " + key)
