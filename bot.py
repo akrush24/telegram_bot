@@ -2,14 +2,15 @@
 import telebot;
 import requests;
 import imgkit;
+import json;
 from telebot import apihelper;
 import os, time, datetime, re, sys;
 from pprint import pprint
 
-from passwd import webuser, webpass, ipamuser, ipampass, admins, proxy, url, TOKEN
+from passwd import webuser, webpass, ipamuser, ipampass, admins, proxy, url, TOKEN, HomeDir
 from servicedesk import get_ticket, send_teleg
+from search_json import search_vm_json # функция поиска 
 
-HomeDir='/home/'
 bot = telebot.TeleBot(TOKEN);
 apihelper.proxy = proxy
 
@@ -50,6 +51,7 @@ def handle_start_help(message):
 @bot.message_handler(content_types=['text'])
 def get_text_messages(message):
     intext = message.text
+    print ( "["+str(message.from_user.id)+"]:"+intext )
 
     if message.text.lower() == "id" or message.text.lower() == "/id":
         bot.send_message(message.chat.id, "You telegramm ID is:")
@@ -94,21 +96,25 @@ def get_text_messages(message):
         elif re.match( r"^[/]*?vm$", intext):
             bot.send_message(message.from_user.id, "Please use: vm [-ip <IP>|-mac <MAC>|-note <NOTE>|-name <NAME>|-esxi <ESXI>]" )
         elif re.match( r"^[/]*?vm\s+?-.+", intext):
-            json = ""
             args = extract_arg( intext )
             argsstr = ' '.join(str(e) for e in args)
-            json = os.popen('./search_json.py ' + argsstr ).read()
-            print( './search_json.py ' + argsstr )
-            #print ( str( json ) )
-            #bot.send_message(message.from_user.id, str( json ))
-            
-            if len( str( json ) ) != 0:
-                try:
-                    bot.send_message(message.from_user.id, str( json ))
-                except:
-                    print( "Error during run: search_json, pleas contact to SysAdmin.\nPerhaps the message is very long (len: " + str ( len( str( json ) ) )+")" )
-                    print( intext )
-                    bot.send_message(message.from_user.id, "Error during run: search_json, pleas contact to SysAdmin\nPerhaps the message is very long (len: " + str ( len( str( json ) ) )+")" )
+            search_res = search_vm_json( argsstr )
+
+            if len( search_res ) != 0:
+                if len( search_res ) < 10:
+                    for key, value in search_res.items():
+                        bot.send_message(message.from_user.id, json.dumps( value, sort_keys=True, indent=4) )
+                        #print ( json.dumps( value, sort_keys=True, indent=4) )
+                else:
+                    bot.send_message(message.from_user.id, "Sorry result is to higth: ["+str(len( search_res ))+"]" )
+                    print ( "Sorry result is to higth: ["+str(len( search_res ))+"]" )
+
+                #try:
+                #    bot.send_message(message.from_user.id, str( json ))
+                #except:
+                #    print( "Error during run: search_json, pleas contact to SysAdmin.\nPerhaps the message is very long (len: " + str ( len( str( json ) ) )+")" )
+                #    print( intext )
+                #    bot.send_message(message.from_user.id, "Error during run: search_json, pleas contact to SysAdmin\nPerhaps the message is very long (len: " + str ( len( str( json ) ) )+")" )
             else:
                 bot.send_message(message.from_user.id, "No result...")
 

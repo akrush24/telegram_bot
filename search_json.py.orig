@@ -1,0 +1,57 @@
+#!/usr/bin/env python3
+import sys, json, argparse, argcomplete, re
+from pprint import pprint
+from passwd import HomeDir
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-ip', dest='ip',  help="guest ip")
+parser.add_argument('-mac', dest='mac',  help="guest mac")
+parser.add_argument('-esxi', dest='esxi',  help="esxi host")
+parser.add_argument('-note', dest='note',  help="note")
+parser.add_argument('-name', dest='name',  help="vm name")
+parser.add_argument('-path', dest='path',  help="vm storage path")
+args = parser.parse_args()
+argcomplete.autocomplete(parser)
+
+HomeDir = '/home/akrush/python/telegram/'
+jsonfile = HomeDir + 'vmware.json'
+
+json_data=open(jsonfile)
+jdata = json.load(json_data)
+
+if args.ip is not None:
+    if re.match( r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$", args.ip ):
+        pass
+    else:
+        print ("IP addres is't correct, please use /ip <192.0.0.1>")
+        quit()
+
+for key, value in jdata.items():
+    if args.name is not None and re.match( args.name , key ):
+        pprint ( value )
+    #if args.ip is not None and ( re.match( args.ip+"'", str( value['guest ip'] ) ) or args.ip in value['Note']):
+    if args.ip is not None:
+        inip = 0 # переменная обозначающая то что мы в цикле нашли нужный ip адрес
+        for i in value['guest ip']:
+            if re.match( args.ip, i ):
+                inip = 1
+        if inip != 1: # если ip не найдет пробуем его найти в Note у машины
+            if re.findall( args.ip,  str( value['Note'] ) ):
+                inip = 1
+
+        if inip == 1:
+            pprint ( value )
+#        else:
+#            print ("IP: " + args.ip + " not found")
+
+    elif args.mac is not None and ( re.match( args.mac,  str( value['macaddress'] ) ) or args.mac in value['Note'] ):
+        pprint ( key + value )
+    elif args.esxi is not None and re.match( args.esxi,  str( value['esxi'] ) ):
+        pprint ( value )
+    elif args.note is not None and re.findall( args.note,  str( value['Note'] ) ):
+        pprint ( value )
+    elif args.path is not None and re.match( args.path, str( value['path'] ) ):
+        pprint ( value )
+
+#pprint ( jdata )
+json_data.close()

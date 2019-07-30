@@ -3,3 +3,4 @@ requests[socks]
 requests
 imgkit
 bs4
+argparse

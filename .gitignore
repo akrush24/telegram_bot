@@ -1,4 +1,5 @@
 passwd.py
 out.jpg
 __pycache__/
-vmware.json
+*/vmware.json
+bot.py.logs
