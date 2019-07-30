@@ -49,7 +49,7 @@ def handle_start_help(message):
 
 @bot.message_handler(content_types=['text'])
 def get_text_messages(message):
-    intext = message.text.lower()
+    intext = message.text
 
     if message.text.lower() == "id" or message.text.lower() == "/id":
         bot.send_message(message.chat.id, "You telegramm ID is:")
@@ -97,14 +97,20 @@ def get_text_messages(message):
             json = ""
             args = extract_arg( intext )
             argsstr = ' '.join(str(e) for e in args)
-            try:
-                json = os.popen('./search_json.py ' + argsstr ).read()
-                bot.send_message(message.from_user.id, str( json ))
-            except:
-                print( "Error during run: search_json, pleas contact to SysAdmin" )
-                print( intext )
-                bot.send_message(message.from_user.id, "Error during run: search_json, pleas contact to SysAdmin")
-
+            json = os.popen('./search_json.py ' + argsstr ).read()
+            print( './search_json.py ' + argsstr )
+            #print ( str( json ) )
+            #bot.send_message(message.from_user.id, str( json ))
+            
+            if len( str( json ) ) != 0:
+                try:
+                    bot.send_message(message.from_user.id, str( json ))
+                except:
+                    print( "Error during run: search_json, pleas contact to SysAdmin.\nPerhaps the message is very long (len: " + str ( len( str( json ) ) )+")" )
+                    print( intext )
+                    bot.send_message(message.from_user.id, "Error during run: search_json, pleas contact to SysAdmin\nPerhaps the message is very long (len: " + str ( len( str( json ) ) )+")" )
+            else:
+                bot.send_message(message.from_user.id, "No result...")
 
         elif message.text.lower() == "sd" or message.text.lower() == "/sd":
 
