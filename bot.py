@@ -101,7 +101,7 @@ def get_text_messages(message):
             search_res = search_vm_json( argsstr )
 
             if len( search_res ) != 0:
-                if len( search_res ) < 10:
+                if len( search_res ) < 11:
                     for key, value in search_res.items():
                         bot.send_message(message.from_user.id, json.dumps( value, sort_keys=True, indent=4) )
                         #print ( json.dumps( value, sort_keys=True, indent=4) )
