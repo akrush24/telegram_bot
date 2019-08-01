@@ -81,8 +81,8 @@ def get_text_messages(message):
            if os.path.exists(HomeDir+'out.jpg'):
               os.remove(HomeDir+'out.jpg')
 
-        elif re.match( r"^[/]*?ip", intext):
-           if re.match( r"^[/]*?ip\s+\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$", intext ): #get ips hostname from IPAM
+        elif re.match( r"^[/]*?ip", intext.lower()):
+           if re.match( r"^[/]*?ip\s+\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$", intext.lower() ): #get ips hostname from IPAM
              ip = extract_arg(message.text)
              bot.send_message(message.from_user.id, get_vm_hostname(ip))
            else:
@@ -93,9 +93,9 @@ def get_text_messages(message):
            up = time.mktime((datetime.datetime.now()).timetuple()) - time.mktime(datetime.datetime.strptime(dateup, "%Y-%m-%d %H:%M:%S").timetuple())
            bot.send_message(message.from_user.id, str(datetime.timedelta(seconds=up)) )
 
-        elif re.match( r"^[/]*?vm$", intext):
+        elif re.match( r"^[/]*?vm$", intext.lower()):
             bot.send_message(message.from_user.id, "Please use: vm [-ip <IP>|-mac <MAC>|-note <NOTE>|-name <NAME>|-esxi <ESXI>]" )
-        elif re.match( r"^[/]*?vm\s+?-.+", intext):
+        elif re.match( r"^[/]*?vm\s+?-.+", intext.lower()):
             args = extract_arg( intext )
             argsstr = ' '.join(str(e) for e in args)
             search_res = search_vm_json( argsstr )
