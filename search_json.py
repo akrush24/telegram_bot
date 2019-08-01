@@ -12,6 +12,7 @@ def search_vm_json( args ):
     parser.add_argument('-note', dest='note',  help="note")
     parser.add_argument('-name', dest='name',  help="vm name")
     parser.add_argument('-path', dest='path',  help="vm storage path")
+    parser.add_argument('-snap', dest='snap',  help="vm whitch snapshots")
     args = parser.parse_args( argslist )
 
     jsonfile = HomeDir + 'inventory_json/vmware.json'
@@ -46,8 +47,9 @@ def search_vm_json( args ):
             res[key] =  value
         elif args.path is not None and re.match( args.path, str( value['path'] ) ):
             res[key] = value
-
+        elif args.snap is not None and len(value['snapshot']) > int(args.snap):
+            res[key] = value
     return ( res )
 
-#pprint ( search_vm_json( "-ip 192.168.222.10$" ) )
+#pprint ( search_vm_json( "-snap 3" ) )
 

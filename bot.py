@@ -94,7 +94,7 @@ def get_text_messages(message):
            bot.send_message(message.from_user.id, str(datetime.timedelta(seconds=up)) )
 
         elif re.match( r"^[/]*?vm$", intext.lower()):
-            bot.send_message(message.from_user.id, "Please use: vm [-ip <IP>|-mac <MAC>|-note <NOTE>|-name <NAME>|-esxi <ESXI>]" )
+            bot.send_message(message.from_user.id, "Please use:\nvm [-ip <IP>\n|-mac <MAC>\n|-note <NOTE>\n|-name <NAME>\n|-esxi <ESXI>\n|-snap $n]" )
         elif re.match( r"^[/]*?vm\s+?-.+", intext.lower()):
             args = extract_arg( intext )
             argsstr = ' '.join(str(e) for e in args)
