@@ -111,6 +111,7 @@ def get_text_messages(message):
                         bot.send_message(message.from_user.id, "Sorry result is to higth: ["+str(len( search_res ))+"]" )
                         print ( "Sorry result is to higth: ["+str(len( search_res ))+"]" )
 
+                else:
                     bot.send_message(message.from_user.id, "No result...")
 
             except:
