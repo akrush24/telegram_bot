@@ -46,7 +46,7 @@ def get_ticket():
                 vm += 'IP ' + soup_view.find('input', id='field1034').get('value')
                 d.update({'vm': vm})
 
-            d.update({'description_head' : '-_-_-_-_-_-_-_-_ОПИСАНИЕ_-_-_-_-_-_-_-_-'})
+            d.update({'description_head' : '\n-_-_-_-_-_-_-_-_ОПИСАНИЕ_-_-_-_-_-_-_-_-'})
             d.update({'Description': soup_view.find("textarea", id='description').text + '\n'})
             d.update({'comment_head': '-_-_-_-_-_-_-_КОМЕНТАРИЙ_-_-_-_-_-_-_-'})
             lifetimeshort = soup_view.find('div', id='lifetimeshort').text.replace("\n\n\n\n", " ")
