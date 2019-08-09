@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tbot-deployment
+  labels:
+    app: tbot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tbot
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      name: tbot-template
+      labels:
+        app: tbot
+    spec:
+      containers:
+      - name: tbot
+        image: akrush/tbot:v9-nocmd
+        command: [ "/bin/bash", "-ce", "/usr/bin/git clone https://github.com/akrush24/telegram_bot.git /tbot \
+&& ln -s /tbot2/passwd.py /tbot/passwd.py \
+&& /tbot/bot.py" ]
+        volumeMounts:
+        - name: passwd
+          mountPath: "/tbot2"
+          readOnly: true
+      volumes:
+      - name: passwd
+        secret:
+          secretName: telegram-bot-pwd
