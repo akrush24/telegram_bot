@@ -25,12 +25,21 @@ spec:
         image: akrush/tbot:v9-nocmd
         command: [ "/bin/bash", "-ce", "/usr/bin/git clone https://github.com/akrush24/telegram_bot.git /tbot \
 && ln -s /tbot2/passwd.py /tbot/passwd.py \
+&& mkdir /root/.ssh/ && cp /root/.ssh2/id_rsa* /root/.ssh/ && chmod 600 -R /root/.ssh \
+&& echo -e 'Host * \n StrictHostKeyChecking no' > /root/.ssh/config \
+&& cd /tbot/inventory_json/ && git archive --remote=git@gitlab.akb-it.ru:INFRA/inventory_json.git HEAD | tar xvf - vmware.json \
 && /tbot/bot.py" ]
         volumeMounts:
         - name: passwd
           mountPath: "/tbot2"
           readOnly: true
+        - name: ssh-keys
+          mountPath: "/root/.ssh2"
       volumes:
       - name: passwd
         secret:
           secretName: telegram-bot-pwd
+      - name: ssh-keys
+        secret:
+          secretName: tbot-ssh-key
+          defaultMode: 400
