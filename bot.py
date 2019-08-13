@@ -134,6 +134,10 @@ def get_text_messages(message):
                 bot.send_message( message.from_user.id, text )
                 print(text)
 
+        elif intext == 'kill':
+            bot.send_message(message.from_user.id, "You Kiled me! =( ")
+            quit()
+
         else:
            bot.send_message(message.from_user.id, 'For help only put: "/"')
 
