@@ -108,7 +108,10 @@ def get_text_messages(message):
                             if re.search( " -all", intext.lower()):
                                 bot.send_message(message.from_user.id, json.dumps( value, sort_keys=True, indent=4) )
                             else:
-                                vmres = 'Name: '+value['Name']+'\nStatus: '+value['Status']+'\nNote: '+value['Note']+'\nguest ip: '+str(value["guest ip"])+'\nguest os: '+value["guest os"]+"\nvcenter: "+value['vcenter']
+                                path = ""
+                                for k,v in value['PATH'].items():
+                                    path = path + "/" + v
+                                vmres = 'Name: '+value['Name']+'\nStatus: '+value['Status']+'\nNote: '+value['Note']+'\nPath: '+path+'\nguest ip: '+str(value["guest ip"])+'\nguest os: '+value["guest os"]+"\nvcenter: "+value['vcenter']
                                 bot.send_message(message.from_user.id, str(vmres) )
                     else:
                         bot.send_message(message.from_user.id, "Sorry result is to higth: ["+str(len( search_res ))+"]" )
