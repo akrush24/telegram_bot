@@ -23,7 +23,8 @@ spec:
       containers:
       - name: tbot
         image: akrush/tbot:v9-nocmd
-        command: [ "/bin/bash", "-ce", "/usr/bin/git clone https://github.com/akrush24/telegram_bot.git /tbot \
+        command: [ "/bin/bash", "-ce", "cd /tbot/&&ls -A1|xargs rm -rf \
+&& /usr/bin/git clone https://github.com/akrush24/telegram_bot.git /tbot \
 && ln -s /tbot2/passwd.py /tbot/passwd.py \
 && /tbot/bot.py" ]
         volumeMounts:
