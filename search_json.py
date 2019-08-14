@@ -13,6 +13,7 @@ def search_vm_json( args ):
     parser.add_argument('-name', dest='name',  help="vm name")
     parser.add_argument('-path', dest='path',  help="vm storage path")
     parser.add_argument('-snap', dest='snap',  help="vm whitch snapshots")
+    parser.add_argument('-all', dest='all',  help="full info", action='store_true')
     args = parser.parse_args( argslist )
 
     jsonfile = HomeDir + 'inventory_json/vmware.json'
