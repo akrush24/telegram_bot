@@ -99,8 +99,10 @@ def get_text_messages(message):
             args = extract_arg( intext )
             argsstr = ' '.join(str(e) for e in args)
             search_res = {}
-            #try:
-            search_res = search_vm_json( argsstr )
+            try:
+                search_res = search_vm_json( argsstr )
+            except:
+                bot.send_message(message.from_user.id, "Error to search: "+intext.lower()+", pleas contact to SysAdmin")
 
             if len( search_res ) != 0:
                 if len( search_res ) < 11:
