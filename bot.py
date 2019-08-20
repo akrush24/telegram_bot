@@ -127,9 +127,8 @@ def get_text_messages(message):
 
         elif message.text.lower() == "sd" or message.text.lower() == "/sd":
 
-            tickets = get_ticket()
-            print(str(len(tickets)))
             try:
+                tickets = get_ticket()
                 if len(tickets) != 0 :
                     for key, value in tickets.items():
                         keyboard = telebot.types.InlineKeyboardMarkup()
