@@ -21,7 +21,7 @@ def get_ticket():
         if a.find('img', alt=status):
 
             taskid = a.find('img', alt=status).get('taskid')
-            print (taskid)
+            print ('sd task #: ' + taskid)
             url = loginurl+"Task/view/"+taskid
             soup_view = BeautifulSoup(session.get(url).content, 'html.parser')
             created = soup_view.find('div', class_='created').text
