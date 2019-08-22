@@ -37,6 +37,8 @@ def get_ticket():
                 vm += 'HDD  ' + soup_view.find('select', id='field1015').find('option', selected="true").text + '\n'
                 vm += 'OS   ' + soup_view.find('select', id='field1016').find('option', selected="true").text + '\n\n'
                 d.update({'vm':vm})
+            else:
+                d.update({'vm':""})
 
             if soup_view.find('span', id='tasktypespan').get('title') == 'Стандартный':
                 pass
@@ -47,7 +49,10 @@ def get_ticket():
                 d.update({'vm': vm})
 
             d.update({'description_head' : '\n-_-_-_-_-_-_-_-_ОПИСАНИЕ_-_-_-_-_-_-_-_-'})
-            d.update({'Description': soup_view.find("textarea", id='description').text + '\n'})
+            try:
+                d.update({'Description': soup_view.find("textarea", id='description').text + '\n'})
+            except:
+                d.update({'Description':""})
             d.update({'comment_head': '-_-_-_-_-_-_-_КОМЕНТАРИЙ_-_-_-_-_-_-_-'})
             lifetimeshort = soup_view.find('div', id='lifetimeshort').text.replace("\n\n\n\n", " ")
             d.update ({'comment' : lifetimeshort.replace("\n\n\n", "\n").replace("^\ ", "")})
