@@ -52,14 +52,17 @@ def get_ticket():
             try:
                 d.update({'Description': soup_view.find("textarea", id='description').text + '\n'})
             except:
-                d.update({'Description':""})
+                d.update({'Description':None})
             d.update({'comment_head': '-_-_-_-_-_-_-_КОМЕНТАРИЙ_-_-_-_-_-_-_-'})
             lifetimeshort = soup_view.find('div', id='lifetimeshort').text.replace("\n\n\n\n", " ")
             d.update ({'comment' : lifetimeshort.replace("\n\n\n", "\n").replace("^\ ", "")})
             d.update ({'created_head':'-_-_-_-_-_-_-_-_-_СОЗДАНА_-_-_-_-_-_-_-_-'})
             d.update ({'created': created.replace('  ', '') + soup_view.find('ul', class_='users').find('a',class_='nounderline').text + '\n'})
             #out.update({ taskid: url + "\n" + d['head'] + d['head_name'] + d['vm'] + d['description_head'] + d['Description'] +
-            out[taskid] =  d['head_name'] + d['vm'] + d['description_head'] + d['Description'] + d['comment_head'] + d['comment'] + '\n' + d['created_head'] + d['created']
+            out[taskid] =  d['head_name'] + d['vm']
+            if d['Description'] is not None:
+                out[taskid] =  out[taskid] + d['description_head'] + d['Description']
+            out[taskid] = out[taskid] + d['comment_head'] + d['comment'] + '\n' + d['created_head'] + d['created']
     return (out)
 
 
@@ -71,4 +74,4 @@ def send_teleg():
     #    print ( key )
     #    print ( value )
 
-#send_teleg()
+send_teleg()
