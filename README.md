@@ -1,1 +1,1 @@
-My telegramm bot for my work
+My telegram bot for my work
