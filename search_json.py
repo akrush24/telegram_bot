@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import sys, json, argparse, re
+
 from pprint import pprint
 from passwd import HomeDir
 
@@ -37,8 +38,6 @@ def search_vm_json( args ):
 
             if inip == 1:
                 res[key] = value
-    #        else:
-    #            print ("IP: " + args.ip + " not found")
 
         elif args.mac is not None and ( re.match( args.mac,  str( value['macaddress'] ) ) or args.mac in value['Note'] ):
             res[key] = value
@@ -51,6 +50,3 @@ def search_vm_json( args ):
         elif args.snap is not None and len(value['snapshot']) > int(args.snap):
             res[key] = value
     return ( res )
-
-#pprint ( search_vm_json( "-snap 3" ) )
-
