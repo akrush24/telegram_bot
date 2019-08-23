@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 import requests
 from bs4 import BeautifulSoup
+from passwd import sd_user, sd_passwd
 
 def get_ticket():
 
     loginurl = 'https://servicedesk.phoenixit.ru/'
-    logindata = {'autologin' : '1', 'login' : 'infra', 'password' : 'oHR4]{_sH@[=H38L;L#p', 'enter' : 'submit', 'stateid': '249'}
+    logindata = {'autologin' : '1', 'login' : sd_user, 'password' : sd_passwd, 'enter' : 'submit', 'stateid': '249'}
     headers = {'User-Agent' : 'Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0',
             'Content-type' : 'application/x-www-form-urlencoded', 'stateid': '249'}
     session=requests.session()
