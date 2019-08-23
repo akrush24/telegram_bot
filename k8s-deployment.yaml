@@ -48,10 +48,20 @@ spec:
       volumes:
       - name: passwd
         secret:
-          secretName: telegram-bot-pwd
+          secretName: tbot-passwd.py
       - name: ssh-keys
         secret:
           secretName: tbot-ssh-key
           defaultMode: 400
       - name: share
         emptyDir: {}
+
+#--- 
+#
+#apiVersion: v1
+#data:
+#  passwd.py: <YOU passwd.py in BASE64 forman (cat passwd.py|base64)>
+#kind: Secret
+#metadata:
+#  name: tbot-passwd.py
+#type: Opaque
