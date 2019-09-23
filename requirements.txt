@@ -4,3 +4,4 @@ requests
 imgkit
 bs4
 argparse
+exchangelib

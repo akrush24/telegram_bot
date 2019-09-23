@@ -152,7 +152,7 @@ def get_text_messages(message):
     else:
         if message.text.lower() != "id" and message.text.lower() != "/id":
             bot.send_message(message.chat.id, 'You do\'t have permission!')
-            bot.send_sticker(message.chat.id, 'CAADAgADZgkAAnlc4gmfCor5YbYYRAI')
+            #bot.send_sticker(message.chat.id, 'CAADAgADZgkAAnlc4gmfCor5YbYYRAI')
 
 try:
     #bot.polling(none_stop=True, interval=0)
