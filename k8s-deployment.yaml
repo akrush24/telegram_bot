@@ -56,7 +56,7 @@ spec:
       - name: share
         emptyDir: {}
 
-#--- 
+#---
 #
 #apiVersion: v1
 #data:
@@ -64,4 +64,14 @@ spec:
 #kind: Secret
 #metadata:
 #  name: tbot-passwd.py
+#type: Opaque
+
+#---
+#apiVersion: v1
+#data:
+#  id_rsa: <YOU id_rsa: in BASE64 forman (cat id_rsa|base64)>
+#  id_rsa.pub: <YOU id_rsa.pub: in BASE64 forman (cat id_rsa.pub|base64)>
+#kind: Secret
+#metadata:
+#  name: tbot-ssh-key
 #type: Opaque
