@@ -152,10 +152,10 @@ def get_text_messages(message):
             quit()
 
        elif intext = 'cm':
-
+            mailcheck(mailuser, mailpasswd, 5);
 
         else:
-           bot.send_message(message.from_user.id, 'For help only put: "/"')
+            bot.send_message(message.from_user.id, 'For help only put: "/"')
 
     else:
         if message.text.lower() != "id" and message.text.lower() != "/id":
