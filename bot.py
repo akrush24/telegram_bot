@@ -151,7 +151,7 @@ def get_text_messages(message):
             os.system('kill $PPID')
             quit()
 
-       elif intext = 'cm':
+        elif intext = 'cm':
             mailcheck(mailuser, mailpasswd, 5);
 
         else:
