@@ -151,8 +151,9 @@ def get_text_messages(message):
             os.system('kill $PPID')
             quit()
 
-        elif intext = 'cm':
-            mailcheck(mailuser, mailpasswd, 5);
+        elif intext == 'cm':
+            if str(message.from_user.id) == admins[0]
+                bot.send_message(message.from_user.id, mailcheck(mailuser, mailpasswd, 5))
 
         else:
             bot.send_message(message.from_user.id, 'For help only put: "/"')
