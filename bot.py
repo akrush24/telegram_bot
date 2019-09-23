@@ -7,9 +7,14 @@ from telebot import apihelper;
 import os, time, datetime, re, sys;
 from pprint import pprint
 
-from passwd import webuser, webpass, ipamuser, ipampass, admins, proxy, url, TOKEN, HomeDir
+from passwd import webuser, webpass, ipamuser, ipampass, admins, proxy, url, TOKEN, HomeDir, mailuser, mailpasswd
 from servicedesk import get_ticket, send_teleg
 from search_json import search_vm_json # функция поиска 
+
+# check email
+from exchangelib import DELEGATE, Account, Credentials
+from mailcheck import mailcheck
+####
 
 bot = telebot.TeleBot(TOKEN);
 apihelper.proxy = proxy
@@ -145,6 +150,9 @@ def get_text_messages(message):
             bot.send_message(message.from_user.id, "You Kiled me! =( ")
             os.system('kill $PPID')
             quit()
+
+       elif intext = 'cm':
+
 
         else:
            bot.send_message(message.from_user.id, 'For help only put: "/"')
