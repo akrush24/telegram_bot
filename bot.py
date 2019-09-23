@@ -152,7 +152,7 @@ def get_text_messages(message):
             quit()
 
         elif intext == 'cm':
-            if str(message.from_user.id) == admins[0]
+            if str(message.from_user.id) == admins[0]:
                 bot.send_message(message.from_user.id, mailcheck(mailuser, mailpasswd, 5))
 
         else:
