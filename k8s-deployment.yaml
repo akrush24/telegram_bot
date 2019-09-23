@@ -23,10 +23,14 @@ spec:
       containers:
       - name: tbot
         image: akrush/tbot:v9-nocmd
+        env:
+        - name: LANG
+          value: "C.UTF-8"
         command: [ "/bin/bash", "-ce", "cd /tbot/&&ls -A1|xargs rm -rf \
 && /usr/bin/git clone https://github.com/akrush24/telegram_bot.git /tbot \
 && ln -s /tbot2/passwd.py /tbot/passwd.py \
-&& /tbot/bot.py" ]
+&& pip3 install -r /tbot/requirements.txt \
+&& /tbot/bot.py 1>/var/log/1.log 2>/var/log/2.log" ]
         volumeMounts:
         - name: passwd
           mountPath: "/tbot2"
@@ -75,3 +79,4 @@ spec:
 #metadata:
 #  name: tbot-ssh-key
 #type: Opaque
+
