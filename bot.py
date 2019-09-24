@@ -146,7 +146,7 @@ def get_text_messages(message):
                 bot.send_message( message.from_user.id, text )
                 print(text)
 
-        elif intext == 'kill':
+        elif intext.lower() == 'kill':
             bot.send_message(message.from_user.id, "You Kiled me! =( ")
             os.system('kill $PPID')
             quit()
