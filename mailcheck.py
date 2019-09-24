@@ -17,12 +17,12 @@ def mailcheck(mailuser, mailpasswd, mailcount):
         autodiscover=True,
         access_type=DELEGATE
     )
-    
-    res = ""
+
+    res = []
     for item in account.inbox.filter(is_read=False).order_by('-datetime_received')[:mailcount]:
-        res = res + str(item.datetime_received) + "\n" + "FROM: " + str(item.sender.email_address) + "; SUB: " + item.subject + "\n" + item.body
+        res.append(str(item.datetime_received) + "\n" + "FROM: " + str(item.sender.email_address) + "; SUB: " + item.subject + "\n" + item.body)
         #print(item.subject, item.body, item.attachments)
 
     return res
 
-print ( mailcheck(mailuser, mailpasswd, 5) )
+#print ( str(mailcheck(mailuser, mailpasswd, 2)) )
