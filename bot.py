@@ -93,7 +93,7 @@ def get_text_messages(message):
            else:
              bot.send_message(message.from_user.id, "IP addres is't correct, please use /ip <192.0.0.1>")
 
-        elif message.text.lower() == "uptime" or message.text.lower() == "/uptime":
+        elif intext.lower() == "uptime" or intext.lower() == "/uptime" or intext.lower() == "up" or intext.lower() == "/up":
            dateup = os.popen('stat /proc/1/cmdline|grep Change|awk \'{print $2,$3}\'|sed "s/\..........//"|tr -d "\r\n"').read()
            up = time.mktime((datetime.datetime.now()).timetuple()) - time.mktime(datetime.datetime.strptime(dateup, "%Y-%m-%d %H:%M:%S").timetuple())
            bot.send_message(message.from_user.id, str(datetime.timedelta(seconds=up)) )
