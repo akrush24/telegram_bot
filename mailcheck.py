@@ -20,9 +20,9 @@ def mailcheck(mailuser, mailpasswd, mailcount):
 
     res = []
     for item in account.inbox.filter(is_read=False).order_by('-datetime_received')[:mailcount]:
-        res.append(str(item.datetime_received) + "\n" + "FROM: " + str(item.sender.email_address) + "; SUB: " + item.subject + "\n" + item.body)
+        res.append(str(item.datetime_received) + "\n" + "FROM: " + str(item.sender.email_address) + "; SUB: " + item.subject)
         #print(item.subject, item.body, item.attachments)
 
     return res
 
-#print ( str(mailcheck(mailuser, mailpasswd, 2)) )
+print ( str(mailcheck(mailuser, mailpasswd, 2)) )
