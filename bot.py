@@ -154,7 +154,7 @@ def get_text_messages(message):
         elif intext.lower() == 'cm' or intext.lower() == "/cm":
             if str(message.from_user.id) == admins[0]:
                 newmail = mailcheck(mailuser, mailpasswd, 5)
-                if newmail != ""
+                if len(newmail) != 0:
                     bot.send_message(message.from_user.id, newmail)
                 else:
                     bot.send_message(message.from_user.id, "No new mails.")
