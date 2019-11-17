@@ -110,7 +110,7 @@ def get_text_messages(message):
                 bot.send_message(message.from_user.id, "Error to search: "+intext.lower()+", pleas contact to SysAdmin")
 
             if len( search_res ) != 0:
-                if len( search_res ) < 11:
+                if len( search_res ) < 20:
                     for key, value in search_res.items():
                         if re.search( " -all", intext.lower()):
                             bot.send_message(message.from_user.id, json.dumps( value, sort_keys=True, indent=4) )
