@@ -2,8 +2,8 @@
 import sys, json, argparse, re
 
 from pprint import pprint
-#from passwd import HomeDir
-HomeDir = '/home/akrush/telegram_bot/'
+from passwd import HomeDir
+#HomeDir = '/home/akrush/telegram_bot/'
 
 def search_vm_json( args ):
     argslist = args.split()
@@ -57,4 +57,4 @@ def search_vm_json( args ):
             res[key] = value
     return ( res )
 
-print (str(search_vm_json('-esxi ars-vm12.srv.local -status 1')))
+#print (str(search_vm_json('-esxi ars-vm12.srv.local -status 1')))
