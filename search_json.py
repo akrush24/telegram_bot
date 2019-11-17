@@ -2,8 +2,8 @@
 import sys, json, argparse, re
 
 from pprint import pprint
-from passwd import HomeDir
-#HomeDir = '/home/akrush/telegram_bot/'
+#from passwd import HomeDir
+HomeDir = '/home/akrush/telegram_bot/'
 
 def search_vm_json( args ):
     argslist = args.split()
@@ -11,6 +11,7 @@ def search_vm_json( args ):
     parser.add_argument('-ip', dest='ip',  help="guest ip")
     parser.add_argument('-mac', dest='mac',  help="guest mac")
     parser.add_argument('-esxi', dest='esxi',  help="esxi host")
+    parser.add_argument('-status', dest='status',  help="power status")
     parser.add_argument('-note', dest='note',  help="note")
     parser.add_argument('-name', dest='name',  help="vm name")
     parser.add_argument('-path', dest='path',  help="vm storage path")
@@ -42,9 +43,11 @@ def search_vm_json( args ):
 
         elif args.mac is not None and ( re.match( args.mac,  str( value['macaddress'] ) ) or args.mac in value['Note'] ):
             res[key] = value
-        elif args.esxi is not None and re.match( args.esxi,  str( value['esxi'] )):
+        elif args.esxi is not None and args.status is None and re.match( args.esxi,  str( value['esxi'] )):
             res[key] = value
-        elif args.esxion is not None and re.match( args.esxi,  str( value['esxi'] ) ) and value['Status'] == "poweredOn":
+        elif args.esxi is not None and args.status == '1' and re.match( args.esxi,  str( value['esxi'] ) ) and value['Status'] == "poweredOn":
+            res[key] = value
+        elif args.esxi is not None and args.status == '0' and re.match( args.esxi,  str( value['esxi'] ) ) and value['Status'] == "poweredOff":
             res[key] = value
         elif args.note is not None and re.findall( args.note,  str( value['Note'] ) ):
             res[key] =  value
@@ -54,4 +57,4 @@ def search_vm_json( args ):
             res[key] = value
     return ( res )
 
-#print (str(search_vm_json('-esxi ars-vm12.srv.local')))
+print (str(search_vm_json('-esxi ars-vm12.srv.local -status 1')))
