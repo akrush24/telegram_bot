@@ -110,7 +110,7 @@ def get_text_messages(message):
                 bot.send_message(message.from_user.id, "Error to search: "+intext.lower()+", pleas contact to SysAdmin")
 
             if len( search_res ) != 0:
-                if len( search_res ) < 20:
+                if len( search_res ) < 150:
                     for key, value in search_res.items():
                         if re.search( " -all", intext.lower()):
                             bot.send_message(message.from_user.id, json.dumps( value, sort_keys=True, indent=4) )
@@ -118,7 +118,8 @@ def get_text_messages(message):
                             path = ""
                             for k,v in sorted( value['PATH'].items(), reverse=True ):
                                 path = path + "/" + v
-                            vmres = 'Name: '+value['Name']+'\nStatus: '+value['Status']+'\nNote: '+value['Note']+'\nPath: '+path+'\nguest ip: '+str(value["guest ip"])+'\nguest os: '+value["guest os"]+"\nvcenter: "+value['vcenter']
+                            #vmres = 'Name: '+value['Name']+'\nStatus: '+value['Status']+'\nNote: '+value['Note']+'\nPath: '+path+'\nguest ip: '+str(value["guest ip"])+'\nguest os: '+value["guest os"]+"\nvcenter: "+value['vcenter']
+                            vmres = 'Name: '+value['Name']+'\nStatus: '+value['Status']+'\nguest ip: '+str(value["guest ip"])
                             bot.send_message(message.from_user.id, str(vmres) )
                 else:
                     bot.send_message(message.from_user.id, "Sorry result is to higth: ["+str(len( search_res ))+"]" )
