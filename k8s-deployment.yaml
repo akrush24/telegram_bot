@@ -30,7 +30,7 @@ spec:
 && /usr/bin/git clone https://github.com/akrush24/telegram_bot.git /tbot \
 && ln -s /tbot2/passwd.py /tbot/passwd.py \
 && pip3 install -r /tbot/requirements.txt \
-&& /tbot/bot.py 1>/var/log/tbot/1.log 2>/var/log/tbot/2.log" ]
+&& /tbot/bot.py 1>/var/log/tbot/tbot.log 2>&1" ]
         volumeMounts:
         - name: passwd
           mountPath: "/tbot2"
@@ -57,10 +57,10 @@ spec:
           mountPath: "/var/log/tbot/"
       - name: logs
         image: alpine:latest
-        command: ["/usr/bin/tail","-f","/var/log/tbot/*.log"]
+        command: ["/bin/sh", "-ce", "/bin/echo logs-started >> /var/log/tbot/tbot.log && /usr/bin/tail -f /var/log/tbot/tbot.log"]
         volumeMounts:
         - name: logs
-          mountPath: "/var/log/tbot/"
+          mountPath: "/var/log/tbot"
       volumes:
       - name: passwd
         secret:
