@@ -41,9 +41,11 @@ spec:
           mountPath: "/tbot"
       - name: git
         image: akrush/tbot:alpine-git
-        command: ["/bin/bash", "-ce", "mkdir /root/.ssh/ && cp /root/.ssh2/id_rsa* /root/.ssh/ && chmod 600 -R /root/.ssh \
+        command: ["/bin/bash", "-ce", "mkdir /root/.ssh/ \
+&&  cp /root/.ssh2/id_rsa* /root/.ssh/ && chmod 300 -R /root/.ssh \
 && echo -e 'Host * \n StrictHostKeyChecking no' > /root/.ssh/config \
-&& cd /tbot/inventory_json/ && while true;do git archive --remote=git@gitlab.akb-it.ru:INFRA/inventory_json.git HEAD | tar xvf - vmware.json;sleep 600;done" ]
+&& cd /tbot/inventory_json/ \
+&& while true;do git archive --remote=git@gitlab.akb-it.ru:INFRA/inventory_json.git HEAD | tar xvf - vmware.json;sleep 600;done" ]
         volumeMounts:
         - name: share
           mountPath: "/tbot"
