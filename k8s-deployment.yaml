@@ -30,7 +30,7 @@ spec:
 && /usr/bin/git clone https://github.com/akrush24/telegram_bot.git /tbot \
 && ln -s /tbot2/passwd.py /tbot/passwd.py \
 && pip3 install -r /tbot/requirements.txt \
-&& /tbot/bot.py 1>/var/log/1.log 2>/var/log/2.log" ]
+&& /tbot/bot.py 1>/var/log/tbot/1.log 2>/var/log/tbot/2.log" ]
         volumeMounts:
         - name: passwd
           mountPath: "/tbot2"
@@ -39,18 +39,28 @@ spec:
           mountPath: "/root/.ssh2"
         - name: share
           mountPath: "/tbot"
+        - name: logs
+          mountPath: "/var/log/tbot"
       - name: git
         image: akrush/tbot:alpine-git
         command: ["/bin/bash", "-ce", "mkdir /root/.ssh/ \
-&&  cp /root/.ssh2/id_rsa* /root/.ssh/ && chmod 300 -R /root/.ssh \
+&&  cp /root/.ssh2/id_rsa* /root/.ssh/ && chmod 600 -R /root/.ssh \
 && echo -e 'Host * \n StrictHostKeyChecking no' > /root/.ssh/config \
 && cd /tbot/inventory_json/ \
-&& while true;do git archive --remote=git@gitlab.akb-it.ru:INFRA/inventory_json.git HEAD | tar xvf - vmware.json;sleep 600;done" ]
+&& while true;do git archive --remote=git@gitlab.akb-it.ru:INFRA/inventory_json.git HEAD | tar xvf - vmware.json;sleep 300;done" ]
         volumeMounts:
         - name: share
           mountPath: "/tbot"
         - name: ssh-keys
           mountPath: "/root/.ssh2"
+        - name: logs
+          mountPath: "/var/log/tbot/"
+      - name: logs
+        image: alpine:latest
+        command: ["/bin/tail","-f","/var/log/tbot/*.log"]
+        volumeMounts:
+        - name: logs
+          mountPath: "/var/log/tbot/"
       volumes:
       - name: passwd
         secret:
@@ -60,6 +70,8 @@ spec:
           secretName: tbot-ssh-key
           defaultMode: 400
       - name: share
+        emptyDir: {}
+      - name: logs
         emptyDir: {}
 
 #---
