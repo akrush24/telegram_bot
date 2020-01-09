@@ -57,7 +57,7 @@ spec:
           mountPath: "/var/log/tbot/"
       - name: logs
         image: alpine:latest
-        command: ["/bin/tail","-f","/var/log/tbot/*.log"]
+        command: ["/usr/bin/tail","-f","/var/log/tbot/*.log"]
         volumeMounts:
         - name: logs
           mountPath: "/var/log/tbot/"
