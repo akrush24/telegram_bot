@@ -61,6 +61,11 @@ spec:
         volumeMounts:
         - name: logs
           mountPath: "/var/log/tbot"
+      - name: haproxy
+        image: haproxy:latest
+        volumeMounts:
+        - name: haproxy-config
+          mountPath: "/usr/local/etc/haproxy/"
       volumes:
       - name: passwd
         secret:
@@ -73,6 +78,27 @@ spec:
         emptyDir: {}
       - name: logs
         emptyDir: {}
+      - name: haproxy-config
+        configMap:
+          name: tbot-haproxy-config
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: tbot-proxy
+spec:
+  ports:
+  - name: haproxy-port
+    port: 443
+    protocol: TCP
+    targetPort: 8443
+  selector:
+    app: tbot
+  type: ClusterIP
+status:
+  loadBalancer: {}
 
 #---
 #
