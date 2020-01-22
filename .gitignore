@@ -3,3 +3,4 @@ out.jpg
 __pycache__/
 */vmware.json
 bot.py.logs
+*.swp
