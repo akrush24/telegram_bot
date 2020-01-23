@@ -4,4 +4,4 @@ i=0
 while i < 1999:
   i += 1
   time.sleep( 1 )
-  print "End : %s" % time.ctime()
+  print ("End"+time.ctime())
