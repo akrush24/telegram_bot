@@ -33,7 +33,7 @@ spec:
 && ln -s /tbot2/passwd.py /tbot/passwd.py \
 && pip3 install -r /tbot/requirements.txt \
 && date && echo '=== Start Script ===' \
-&& /usr/bin/env python3 /tbot/test.py" ]
+&& /usr/bin/env python3 /tbot/bot.py" ]
 #&& tail -f /etc/passwd" ]
 #&& /tbot/bot.py 1>/var/log/1.log 2>/var/log/tbot/2.log" ]
         volumeMounts:
