@@ -27,4 +27,7 @@ tbot-passwd.py   Opaque   1      125d
 # kubectl get secrets tbot-ssh-key
 NAME           TYPE     DATA   AGE
 tbot-ssh-key   Opaque   2      169d
+# kubectl get configmaps tbot-haproxy-config
+NAME                  DATA   AGE
+tbot-haproxy-config   1      4d6h
 ```
