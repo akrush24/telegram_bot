@@ -3,13 +3,17 @@
 ## Please run it in Kubernetes, run it in kubernetes is best practice =)
 
 ### first create secret from passwd.py
+
 ```# kubectl create secret generic tbot-passwd.py --from-file=./passwd.py```
+
 example my passwd.yaml is:
 ```$ cat ./passwd.example.py```
 
 ### create haproxy ConfigMap for telegram proxy
 For telegram proxy I use my own proxy servers (one in Germany one in Amsterdam). To balance traffic, I use HaProxy.
+
 ```# kubectl create configmap tbot-haproxy-config --from-file ./haproxy/haproxy.cfg```
+
 example my HaProxy config is: 
 ```$ cat haproxy/haproxy.cfg```
 
