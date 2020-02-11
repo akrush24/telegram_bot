@@ -42,9 +42,10 @@ def search_vm_json( args ):
                 res[key] = value
 
         elif args.mac is not None:
-        for m in value['macaddress']:
-            if re.match( args.mac, m ):
-                inmac = 1 
+            inmac = 0
+            for m in value['macaddress']:
+                if re.match( args.mac, m ):
+                    inmac = 1 
 #( re.match( args.mac,  str( value['macaddress'] ) ) or args.mac in value['Note'] ):
             if inip == 1:
                 res[key] = value
