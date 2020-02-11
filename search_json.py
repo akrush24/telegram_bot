@@ -41,8 +41,13 @@ def search_vm_json( args ):
             if inip == 1:
                 res[key] = value
 
-        elif args.mac is not None and ( re.match( args.mac,  str( value['macaddress'] ) ) or args.mac in value['Note'] ):
-            res[key] = value
+        elif args.mac is not None:
+        for m in value['macaddress']:
+            if re.match( args.mac, m ):
+                inmac = 1 
+#( re.match( args.mac,  str( value['macaddress'] ) ) or args.mac in value['Note'] ):
+            if inip == 1:
+                res[key] = value
         elif args.esxi is not None and args.status is None and re.match( args.esxi,  str( value['esxi'] )):
             res[key] = value
         elif args.esxi is not None and args.status == '1' and re.match( args.esxi,  str( value['esxi'] ) ) and value['Status'] == "poweredOn":
