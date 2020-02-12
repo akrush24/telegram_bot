@@ -34,7 +34,7 @@ def get_screen(url):
     options = {
         'xvfb': ''
     }
-    imgkit.from_string ( session.get(url).text, HomeDir+'out.jpg', css=HomeDir+'dark-theme.css', options=options )
+    imgkit.from_string ( session.get(url).text, HomeDir+'out.jpg', css=HomeDir+'/zabbix/dark-theme.css', options=options )
 
 def get_vm_hostname(ip):
     try:
