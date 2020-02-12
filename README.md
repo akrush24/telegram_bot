@@ -1,4 +1,4 @@
-# tBot
+# Telegram Bot
 
 ## Please run it in Kubernetes, run it in kubernetes is best practice =)
 
