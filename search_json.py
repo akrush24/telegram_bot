@@ -12,7 +12,7 @@ def search_vm_json( args ):
     parser.add_argument('-mac', dest='mac',  help="guest mac")
     parser.add_argument('-esxi', dest='esxi',  help="esxi host")
     parser.add_argument('-status', dest='status',  help="vm power status")
-    parser.add_argument('-note', dest='note',  help="note")
+    parser.add_argument('-note', '-desc', dest='note',  help="note")
     parser.add_argument('-name', dest='name',  help="vm name")
     parser.add_argument('-path', dest='path',  help="vm storage path")
     parser.add_argument('-snap', dest='snap',  help="vm whitch snapshots")
