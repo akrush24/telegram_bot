@@ -8,6 +8,7 @@ from passwd import HomeDir
 def search_vm_json( args ):
     argslist = args.split()
     parser = argparse.ArgumentParser( )
+    # parameters
     parser.add_argument('-ip', dest='ip',  help="guest ip")
     parser.add_argument('-mac', dest='mac',  help="guest mac")
     parser.add_argument('-esxi', dest='esxi',  help="esxi host")
@@ -63,4 +64,4 @@ def search_vm_json( args ):
             res[key] = value
     return ( res )
 
-#print (str(search_vm_json('-esxi ars-vm12.srv.local -status 1')))
+#print (stg(search_vm_json('-esxi ars-vm12.srv.local -status 1')))
