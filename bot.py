@@ -154,14 +154,17 @@ def get_text_messages(message):
 #            quit()
 
         elif intext.lower() == 'cm' or intext.lower() == "/cm":
-            if str(message.from_user.id) == admins[0]:
-                newmails = mailcheck(mailuser, mailpasswd, 5)
-                if len(newmails) != 0:
-                    for mail in newmails:
-                        bot.send_message(message.from_user.id, mail)
-                else:
-                    bot.send_message(message.from_user.id, "No new mails.")
-
+            try:
+                if str(message.from_user.id) == admins[0]:
+                    newmails = mailcheck(mailuser, mailpasswd, 5)
+                    if len(newmails) != 0:
+                        for mail in newmails:
+                            bot.send_message(message.from_user.id, mail)
+                    else:
+                        bot.send_message(message.from_user.id, "No new mails.")
+            except:
+                bot.send_message( message.from_user.id, 'Error to check mail...' )
+                print(text)
         else:
             bot.send_message(message.from_user.id, 'For help only put: "/"')
 
