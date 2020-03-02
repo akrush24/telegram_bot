@@ -24,5 +24,7 @@ def mailcheck(mailuser, mailpasswd, mailcount):
         #print(item.subject, item.body, item.attachments)
 
     return res
-
-print ( str(mailcheck(mailuser, mailpasswd, 2)) )
+try:
+    print ( str(mailcheck(mailuser, mailpasswd, 2)) )
+except:
+    pass
